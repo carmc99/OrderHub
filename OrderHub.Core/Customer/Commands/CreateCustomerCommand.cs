@@ -9,7 +9,7 @@ namespace OrderHub.Customer.Commands
 {
     public static class CreateCustomerCommand
     {
-        public class Handler : IRequestHandler<Request, bool>
+        public class Handler : IRequestHandler<Request, CustomerModel?>
         {
             private readonly ICustomerRepository CustomerRepository;
             private readonly IValidator<Request> RequestValidation;
@@ -22,13 +22,15 @@ namespace OrderHub.Customer.Commands
                 RequestValidation = requestValidation;
             }
 
-            public Task<bool> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<CustomerModel?> Handle(Request request, CancellationToken cancellationToken)
             {
+                await RequestValidation.ValidateAndThrowAsync(request, cancellationToken);
+
                 throw new NotImplementedException();
             }
         }
 
-        public class Request : CustomerModel, IRequest<bool> { }
+        public class Request : CustomerModel, IRequest<CustomerModel?> { }
 
         public class Validator : AbstractValidator<Request>
         {

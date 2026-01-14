@@ -17,7 +17,7 @@ using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Test.Customer
 {
-    public static class StoreCustomerSteps
+    public static class CreateCustomerSteps
     {
         public static IServiceCollection GivenCustomerRepositoryReturnsSuccess(
             this IServiceCollection services)
@@ -50,27 +50,23 @@ namespace OrderHub.Test.Customer
             return services;
         }
 
-        public static Task<bool> WhenCreateCustomer(this IServiceProvider services, CreateCustomerCommand.Request request)
+        public static Task<CustomerModel?> WhenCreateCustomer(this IServiceProvider services, CreateCustomerCommand.Request request)
         {
-            IRequestHandler<CreateCustomerCommand.Request, bool> handler = services
-                .GetRequiredService<IRequestHandler<CreateCustomerCommand.Request, bool>>();
+            IRequestHandler<CreateCustomerCommand.Request, CustomerModel?> handler = services
+                .GetRequiredService<IRequestHandler<CreateCustomerCommand.Request, CustomerModel?>>();
 
             return handler.Handle(request, CancellationToken.None);
         }
 
-        public static void ThenShouldCompleteSuccessfully(this bool result)
+        public static void ThenShouldCompleteSuccessfully(this CustomerModel? result)
         {
-            Assert.True(result);
+            Assert.NotNull(result);
+            Assert.True(result!.Id > 0);
         }
 
         public static Task ThenShouldThrowValidationException(this Task task)
         {
             return Assert.ThrowsAsync<ValidationException>(() => task);
-        }
-
-        public static Task ThenShouldThrowInvalidOperationException(this Task task)
-        {
-            return Assert.ThrowsAsync<InvalidOperationException>(() => task);
         }
     }
 }
