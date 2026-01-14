@@ -1,0 +1,76 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using FluentValidation;
+using MediatR;
+
+using Microsoft.Extensions.DependencyInjection;
+
+using Moq;
+
+using OrderHub.Customer.Commands;
+using OrderHub.Customer.Models;
+using OrderHub.Customer.Repositories;
+using OrderHub.Customer.Repositories.EF.Entities;
+
+namespace OrderHub.Test.Customer
+{
+    public static class StoreCustomerSteps
+    {
+        public static IServiceCollection GivenCustomerRepositoryReturnsSuccess(
+            this IServiceCollection services)
+        {
+            Mock<ICustomerRepository> repositoryMock = services.MockClass<ICustomerRepository>();
+
+            repositoryMock
+                .Setup(x => x.Store(It.IsAny<CustomerModel>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new CustomerEntity
+                {
+                    Id = 1,
+                    Name = "Test Customer",
+                    Email = "test@example.com",
+                    PhoneNumber = "3001234567",
+                    Address = "Test Address"
+                });
+
+            return services;
+        }
+
+        public static IServiceCollection GivenCustomerRepositoryThrowsDuplicateEmailException(
+            this IServiceCollection services)
+        {
+            Mock<ICustomerRepository> repositoryMock = services.MockClass<ICustomerRepository>();
+
+            repositoryMock
+                .Setup(x => x.Store(It.IsAny<CustomerModel>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new InvalidOperationException("Ya existe un cliente con este email"));
+
+            return services;
+        }
+
+        public static Task<bool> WhenCreateCustomer(this IServiceProvider services, CreateCustomerCommand.Request request)
+        {
+            IRequestHandler<CreateCustomerCommand.Request, bool> handler = services
+                .GetRequiredService<IRequestHandler<CreateCustomerCommand.Request, bool>>();
+
+            return handler.Handle(request, CancellationToken.None);
+        }
+
+        public static void ThenShouldCompleteSuccessfully(this bool result)
+        {
+            Assert.True(result);
+        }
+
+        public static Task ThenShouldThrowValidationException(this Task task)
+        {
+            return Assert.ThrowsAsync<ValidationException>(() => task);
+        }
+
+        public static Task ThenShouldThrowInvalidOperationException(this Task task)
+        {
+            return Assert.ThrowsAsync<InvalidOperationException>(() => task);
+        }
+    }
+}
