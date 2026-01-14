@@ -4,6 +4,7 @@ namespace OrderHub.Customer.Repositories.EF
     {
         public static IServiceCollection AddCustomerEFrepository(this IServiceCollection services)
         {
+            
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             return services;

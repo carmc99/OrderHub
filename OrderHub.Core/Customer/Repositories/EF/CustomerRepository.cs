@@ -1,4 +1,5 @@
 
+using OrderHub.Customer.Models;
 using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Customer.Repositories.EF
@@ -10,7 +11,7 @@ namespace OrderHub.Customer.Repositories.EF
             throw new NotImplementedException();
         }
 
-        public Task<CustomerEntity> Store(CustomerEntity customerEntity, CancellationToken cancellationToken)
+        public Task<CustomerEntity?> Store(CustomerModel model, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
