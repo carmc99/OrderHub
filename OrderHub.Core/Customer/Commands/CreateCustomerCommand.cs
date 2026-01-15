@@ -1,7 +1,5 @@
 using FluentValidation;
-
 using MediatR;
-
 using OrderHub.Customer.Models;
 using OrderHub.Customer.Repositories;
 using OrderHub.Customer.Repositories.EF.Entities;
