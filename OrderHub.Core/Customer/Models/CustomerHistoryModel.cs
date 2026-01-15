@@ -14,7 +14,6 @@ namespace OrderHub.Core.Customer.Models
         public string CustomerEmail { get; set; }
         public string? CustomerPhoneNumber { get; set; }
         public string? CustomerAddress { get; set; }
-        public DateTime? CustomerRegistrationDate { get; set; }
         public List<OrderHistoryItemModel> Orders { get; set; } = new();
         public int TotalOrders { get; set; }
         public double TotalCompletedAmount { get; set; }

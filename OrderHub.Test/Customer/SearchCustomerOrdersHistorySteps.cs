@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using OrderHub.Core.Customer.Models;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 using OrderHub.Core.Customer.Specifications;
 using OrderHub.Core.Order.Models;
 using OrderHub.Core.Order.Repositories.EF.Entities;
 using OrderHub.Core.Repositories.EF;
-using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Test.Customer
 {

@@ -98,7 +98,7 @@ namespace OrderHub.Api.Controllers
             return result;
         }
 
-        [HttpGet("{id}/history")]
+        [HttpGet("{id}/orders")]
         [ProducesResponseType(typeof(CustomerHistoryModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
