@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OrderHub.Core.Customer.Specifications;
 using OrderHub.Customer.Commands;
 using OrderHub.Customer.Models;
 
@@ -24,7 +25,9 @@ namespace OrderHub.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateCustomer([FromBody] CustomerModel model)
         {
-            CustomerModel? result = await Mediator.Send(new CreateCustomerCommand.Request()
+            IActionResult result = BadRequest();
+
+            CustomerModel? customer = await Mediator.Send(new CreateCustomerCommand.Request()
             {
                 Name = model.Name,
                 Email = model.Email,
@@ -34,15 +37,27 @@ namespace OrderHub.Api.Controllers
 
             if(result != null)
             {
-                //TODO: Get
-                return CreatedAtAction(nameof(CreateCustomer), 
-                    new 
+                result = CreatedAtAction(
+                    nameof(GetCustomer),
+                    new
                     {
-                        id = result.Id
-                    }, result);
+                        version = "1.0",
+                        id = customer.Id
+                    },
+                    customer);
             }
 
-            return BadRequest();
+            return result;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetCustomers()
+        {
+            List<CustomerModel> result = await Mediator.Send(new SearchCustomersSpecification());
+
+            return Ok(result);
         }
     }
 }
