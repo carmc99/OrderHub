@@ -4,6 +4,8 @@ using OrderHub.Core.Customer.Specifications;
 using OrderHub.Customer.Models;
 using OrderHub.Customer.Repositories;
 using OrderHub.Customer.Repositories.EF.Entities;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace OrderHub.Core.Customer.Commands
 {
@@ -37,10 +39,16 @@ namespace OrderHub.Core.Customer.Commands
                 };
 
                 CustomerModel? existingCustomer = await Mediator.Send(searchSpec, cancellationToken);
+ 
 
-                if(existingCustomer != null)
+                if (existingCustomer != null)
                 {
-                    CustomerEntity? entity = await CustomerRepository.Store(request, cancellationToken);
+                    existingCustomer.PhoneNumber = request.PhoneNumber;
+                    existingCustomer.Address = request.Address;
+                    existingCustomer.Name = request.Name;
+                    existingCustomer.Email = request.Email;
+
+                    CustomerEntity? entity = await CustomerRepository.Store(existingCustomer, cancellationToken);
                     
                     if (entity != null)
                     {
@@ -51,7 +59,15 @@ namespace OrderHub.Core.Customer.Commands
                 return result;
             }
         }
-        public class Request : CustomerModel, IRequest<CustomerModel?> { }
+        public class Request : IRequest<CustomerModel?> 
+        {
+            [JsonIgnore]
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Email { get; set; }
+            public string? PhoneNumber { get; set; }
+            public string? Address { get; set; }
+        }
 
         public class Validator : AbstractValidator<Request>
         {
