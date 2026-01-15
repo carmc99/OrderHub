@@ -24,6 +24,7 @@ namespace OrderHub.Customer.Repositories.EF
             if (entity != null)
             {
                 Context.Set<CustomerEntity>().Remove(entity);
+
                 int affectedRows = await Context.SaveChangesAsync(cancellationToken);
                 result = affectedRows > 0;
             }
@@ -49,7 +50,7 @@ namespace OrderHub.Customer.Repositories.EF
             if (model.Id == 0)
             {
                 CustomerEntity newEntity = CustomerEntity.FromModel(model);
-                Context.Set<CustomerEntity>().Add(newEntity);
+                Context.Customers.Add(newEntity);
                 await Context.SaveChangesAsync(cancellationToken);
 
                 result = newEntity;
@@ -66,7 +67,7 @@ namespace OrderHub.Customer.Repositories.EF
                     existingEntity.PhoneNumber = model.PhoneNumber;
                     existingEntity.Address = model.Address;
 
-                    Context.Set<CustomerEntity>().Update(existingEntity);
+                    Context.Entry(existingEntity).CurrentValues.SetValues(CustomerEntity.FromModel(model));
                     await Context.SaveChangesAsync(cancellationToken);
                     result = existingEntity;
                 }
