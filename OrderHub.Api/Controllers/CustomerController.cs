@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OrderHub.Core.Customer.Commands;
 using OrderHub.Core.Customer.Specifications;
 using OrderHub.Customer.Commands;
 using OrderHub.Customer.Models;
@@ -58,6 +59,34 @@ namespace OrderHub.Api.Controllers
             List<CustomerModel> result = await Mediator.Send(new SearchCustomersSpecification());
 
             return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateCustomer([FromRoute] int id, [FromBody] CustomerModel model)
+        {
+            IActionResult result = BadRequest();
+
+            UpdateCustomerCommand.Request request = new()
+            {
+                Id = id,
+                Name = model.Name,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                Address = model.Address
+            };
+
+            CustomerModel? customer = await Mediator.Send(request);
+
+            if (customer != null)
+            {
+                result = Ok(customer);
+            }
+
+            return result;
         }
 
         [HttpGet("{id}")]
