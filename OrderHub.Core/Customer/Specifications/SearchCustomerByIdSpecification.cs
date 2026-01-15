@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using OrderHub.Customer.Models;
+using OrderHub.Core.Customer.Models;
 
 namespace OrderHub.Core.Customer.Specifications
 {

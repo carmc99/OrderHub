@@ -22,7 +22,7 @@ namespace OrderHub.Core.Order.Repositories.EF.Queries
             {
                 List<OrderModel> result = new();
 
-                List<OrderEntity> entities = await Context.Set<OrderEntity>()
+                List<OrderEntity> entities = await Context.Orders
                     .ToListAsync(cancellationToken);
 
                 if (entities != null && entities.Count > 0)

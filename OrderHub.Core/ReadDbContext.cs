@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderHub.Core.Customer.Repositories.EF;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 using OrderHub.Core.Order.Repositories.EF;
 using OrderHub.Core.Order.Repositories.EF.Entities;
-using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Core.Repositories.EF
 {

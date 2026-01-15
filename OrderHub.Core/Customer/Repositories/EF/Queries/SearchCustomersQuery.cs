@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using OrderHub.Core.Customer.Models;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 using OrderHub.Core.Customer.Specifications;
 using OrderHub.Core.Repositories.EF;
-using OrderHub.Customer.Models;
-using OrderHub.Customer.Repositories.EF;
-using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Core.Customer.Repositories.EF.Queries
 {
@@ -23,7 +22,7 @@ namespace OrderHub.Core.Customer.Repositories.EF.Queries
             {
                 List<CustomerModel> result = new();
 
-                List<CustomerEntity> entities = await Context.Set<CustomerEntity>()
+                List<CustomerEntity> entities = await Context.Customers
                     .ToListAsync(cancellationToken);
 
                 if (entities != null && entities.Count > 0)

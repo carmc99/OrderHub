@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using OrderHub.Core.Customer.Repositories.EF;
-using OrderHub.Customer.Repositories.EF.Entities;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 
-namespace OrderHub.Customer.Repositories.EF
+namespace OrderHub.Core.Customer.Repositories.EF
 {
     public class CustomerDbContext : DbContext
     {

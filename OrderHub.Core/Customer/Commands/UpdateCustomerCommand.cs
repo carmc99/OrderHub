@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
 using MediatR;
+using OrderHub.Core.Customer.Models;
+using OrderHub.Core.Customer.Repositories;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 using OrderHub.Core.Customer.Specifications;
-using OrderHub.Customer.Models;
-using OrderHub.Customer.Repositories;
-using OrderHub.Customer.Repositories.EF.Entities;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace OrderHub.Core.Customer.Commands
@@ -39,7 +38,6 @@ namespace OrderHub.Core.Customer.Commands
                 };
 
                 CustomerModel? existingCustomer = await Mediator.Send(searchSpec, cancellationToken);
- 
 
                 if (existingCustomer != null)
                 {
@@ -49,7 +47,7 @@ namespace OrderHub.Core.Customer.Commands
                     existingCustomer.Email = request.Email;
 
                     CustomerEntity? entity = await CustomerRepository.Store(existingCustomer, cancellationToken);
-                    
+
                     if (entity != null)
                     {
                         result = CustomerModel.FromEntity(entity);
@@ -59,7 +57,8 @@ namespace OrderHub.Core.Customer.Commands
                 return result;
             }
         }
-        public class Request : IRequest<CustomerModel?> 
+
+        public class Request : IRequest<CustomerModel?>
         {
             [JsonIgnore]
             public int Id { get; set; }
@@ -90,4 +89,3 @@ namespace OrderHub.Core.Customer.Commands
         }
     }
 }
-

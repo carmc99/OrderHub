@@ -1,7 +1,6 @@
-using OrderHub.Customer.Repositories.EF.Entities;
-using System.Text.Json.Serialization;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 
-namespace OrderHub.Customer.Models
+namespace OrderHub.Core.Customer.Models
 {
     public class CustomerModel
     {

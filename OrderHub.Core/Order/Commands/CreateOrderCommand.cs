@@ -4,7 +4,6 @@ using OrderHub.Core.Customer.Specifications;
 using OrderHub.Core.Order.Models;
 using OrderHub.Core.Order.Repositories;
 using OrderHub.Core.Order.Repositories.EF.Entities;
-using OrderHub.Customer.Models;
 
 namespace OrderHub.Core.Order.Commands
 {
@@ -32,11 +31,12 @@ namespace OrderHub.Core.Order.Commands
 
                 await RequestValidation.ValidateAndThrowAsync(request, cancellationToken);
 
-                _ = await Mediator.Send(new SearchCustomerByIdSpecification { 
-                        Id = request.CustomerId 
-                    }, cancellationToken) ??
-                        throw new InvalidOperationException("Customer not found");
-
+                _ = await Mediator.Send(new SearchCustomerByIdSpecification
+                {
+                    Id = request.CustomerId
+                }, cancellationToken) ?? 
+                    throw new InvalidOperationException("Customer not found");
+                
                 OrderModel orderModel = new()
                 {
                     CustomerId = request.CustomerId,
@@ -56,7 +56,7 @@ namespace OrderHub.Core.Order.Commands
             }
         }
 
-        public class Request : IRequest<OrderModel?> 
+        public class Request : IRequest<OrderModel?>
         {
             public int CustomerId { get; set; }
             public double Total { get; set; }
