@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using OrderHub.Customer.Models;
 using OrderHub.Customer.Repositories.EF.Entities;
@@ -18,12 +17,12 @@ namespace OrderHub.Customer.Repositories.EF
         {
             bool result = false;
 
-            CustomerEntity? entity = await Context.Set<CustomerEntity>()
+            CustomerEntity? entity = await Context.Customers
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
             if (entity != null)
             {
-                Context.Set<CustomerEntity>().Remove(entity);
+                Context.Customers.Remove(entity);
 
                 int affectedRows = await Context.SaveChangesAsync(cancellationToken);
                 result = affectedRows > 0;
@@ -38,7 +37,7 @@ namespace OrderHub.Customer.Repositories.EF
 
             if (!string.IsNullOrEmpty(model.Email))
             {
-                bool emailExists = await Context.Set<CustomerEntity>()
+                bool emailExists = await Context.Customers
                     .AnyAsync(x => x.Email == model.Email && x.Id != model.Id, cancellationToken);
 
                 if (emailExists)
@@ -47,33 +46,48 @@ namespace OrderHub.Customer.Repositories.EF
                 }
             }
 
-            if (model.Id == 0)
+            CustomerEntity? currentEntity = await Context.Customers
+                .FirstOrDefaultAsync(x => x.Id == model.Id, cancellationToken);
+
+            bool isNewEntity = currentEntity == null;
+
+            if (isNewEntity)
             {
-                CustomerEntity newEntity = CustomerEntity.FromModel(model);
+                CustomerEntity newEntity = MapToEntity(model);
                 Context.Customers.Add(newEntity);
                 await Context.SaveChangesAsync(cancellationToken);
-
                 result = newEntity;
             }
             else
             {
-                CustomerEntity? existingEntity = await Context.Set<CustomerEntity>()
-                    .FirstOrDefaultAsync(x => x.Id == model.Id, cancellationToken);
-
-                if (existingEntity != null)
-                {
-                    existingEntity.Name = model.Name;
-                    existingEntity.Email = model.Email;
-                    existingEntity.PhoneNumber = model.PhoneNumber;
-                    existingEntity.Address = model.Address;
-
-                    Context.Entry(existingEntity).CurrentValues.SetValues(CustomerEntity.FromModel(model));
-                    await Context.SaveChangesAsync(cancellationToken);
-                    result = existingEntity;
-                }
+                MapToExistingEntity(currentEntity, model);
+                await Context.SaveChangesAsync(cancellationToken);
+                result = currentEntity;
             }
 
             return result;
+        }
+
+        private static CustomerEntity MapToEntity(CustomerModel model)
+        {
+            CustomerEntity entity = new()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                Address = model.Address
+            };
+
+            return entity;
+        }
+
+        private static void MapToExistingEntity(CustomerEntity entity, CustomerModel model)
+        {
+            entity.Name = model.Name;
+            entity.Email = model.Email;
+            entity.PhoneNumber = model.PhoneNumber;
+            entity.Address = model.Address;
         }
     }
 }

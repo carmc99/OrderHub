@@ -1,6 +1,5 @@
 using FluentValidation;
 using MediatR;
-using OrderHub.Core.Order.Repositories.EF.Entities;
 using OrderHub.Customer.Models;
 using OrderHub.Customer.Repositories;
 using OrderHub.Customer.Repositories.EF.Entities;
@@ -47,7 +46,7 @@ namespace OrderHub.Customer.Commands
             }
         }
 
-        public class Request : IRequest<CustomerModel?> 
+        public class Request : IRequest<CustomerModel?>
         {
             public string Name { get; set; }
             public string Email { get; set; }

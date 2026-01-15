@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using OrderHub.Core.Customer.Specifications;
 using OrderHub.Core.Repositories.EF;
 using OrderHub.Customer.Models;
-using OrderHub.Customer.Repositories.EF;
 using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Core.Customer.Repositories.EF.Queries
@@ -23,7 +22,7 @@ namespace OrderHub.Core.Customer.Repositories.EF.Queries
             {
                 CustomerModel? result = null;
 
-                CustomerEntity? entity = await Context.Set<CustomerEntity>()
+                CustomerEntity? entity = await Context.Customers
                     .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
                 if (entity != null)

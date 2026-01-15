@@ -22,7 +22,7 @@ namespace OrderHub.Core.Order.Repositories.EF.Queries
             {
                 OrderModel? result = null;
 
-                OrderEntity? entity = await Context.Set<OrderEntity>()
+                OrderEntity? entity = await Context.Orders
                     .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
                 if (entity != null)
