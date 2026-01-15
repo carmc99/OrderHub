@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace OrderHub.Customer.Repositories.EF
@@ -6,6 +7,9 @@ namespace OrderHub.Customer.Repositories.EF
     {
         public static IServiceCollection AddCustomerEFrepository(this IServiceCollection services)
         {
+            services.AddDbContext<CustomerDbContext>(options => 
+                options.UseInMemoryDatabase("InMemoryDb"));
+            
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             return services;

@@ -4,6 +4,7 @@ using MediatR;
 
 using OrderHub.Customer.Models;
 using OrderHub.Customer.Repositories;
+using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Customer.Commands
 {
@@ -24,9 +25,18 @@ namespace OrderHub.Customer.Commands
 
             public async Task<CustomerModel?> Handle(Request request, CancellationToken cancellationToken)
             {
+                CustomerModel? result = null;
+
                 await RequestValidation.ValidateAndThrowAsync(request, cancellationToken);
 
-                throw new NotImplementedException();
+                CustomerEntity? entity = await CustomerRepository.Store(request, cancellationToken);
+
+                if (entity != null)
+                {
+                    result = CustomerModel.FromEntity(entity);
+                }
+
+                return result;
             }
         }
 
@@ -37,11 +47,14 @@ namespace OrderHub.Customer.Commands
             public Validator()
             {
                 RuleFor(x => x.Name)
-                    .NotEmpty();
+                    .NotEmpty()
+                    .WithMessage("Name is required");
 
                 RuleFor(x => x.Email)
                     .NotEmpty()
-                    .EmailAddress();
+                    .WithMessage("Email is required")
+                    .EmailAddress()
+                    .WithMessage("Email format is invalid");
             }
         }
     }
