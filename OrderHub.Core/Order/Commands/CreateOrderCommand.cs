@@ -37,7 +37,15 @@ namespace OrderHub.Core.Order.Commands
                     }, cancellationToken) ??
                         throw new InvalidOperationException("Customer not found");
 
-                OrderEntity? entity = await OrderRepository.Store(request, cancellationToken);
+                OrderModel orderModel = new()
+                {
+                    CustomerId = request.CustomerId,
+                    Total = request.Total,
+                    Status = request.Status,
+                    OrderDate = DateTime.UtcNow
+                };
+
+                OrderEntity? entity = await OrderRepository.Store(orderModel, cancellationToken);
 
                 if (entity != null)
                 {
@@ -48,7 +56,12 @@ namespace OrderHub.Core.Order.Commands
             }
         }
 
-        public class Request : OrderModel, IRequest<OrderModel?> { }
+        public class Request : IRequest<OrderModel?> 
+        {
+            public int CustomerId { get; set; }
+            public double Total { get; set; }
+            public OrderStatus Status { get; set; }
+        }
 
         public class Validator : AbstractValidator<Request>
         {
