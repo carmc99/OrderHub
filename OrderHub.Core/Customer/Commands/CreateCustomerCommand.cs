@@ -24,6 +24,7 @@ namespace OrderHub.Customer.Commands
             public async Task<CustomerModel?> Handle(Request request, CancellationToken cancellationToken)
             {
                 CustomerModel? result = null;
+                request.Id = 0;
 
                 await RequestValidation.ValidateAndThrowAsync(request, cancellationToken);
 
