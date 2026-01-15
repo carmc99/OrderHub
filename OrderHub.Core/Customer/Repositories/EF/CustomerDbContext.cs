@@ -8,7 +8,7 @@ namespace OrderHub.Customer.Repositories.EF
     {
         public DbSet<CustomerEntity> Customers { get; set; }
 
-        public CustomerDbContext(DbContextOptions options) : base(options) { }
+        public CustomerDbContext(DbContextOptions<CustomerDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

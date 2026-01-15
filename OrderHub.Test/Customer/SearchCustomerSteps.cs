@@ -9,12 +9,12 @@ using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Test.Customer
 {
-    public static class SearchCustomerSteps
+    internal static class SearchCustomerSteps
     {
         public static IServiceCollection GivenFiveCustomersInDatabase(
             this IServiceCollection services)
         {
-            ReadDbContext context = GetInMemoryContext();
+            ReadDbContext context = services.GetInMemoryContext();
 
             List<CustomerEntity> customers = new()
             {
@@ -60,10 +60,7 @@ namespace OrderHub.Test.Customer
                 }
             };
 
-            context.Customers.AddRange(customers);
-            context.SaveChanges();
-
-            services.AddSingleton(context);
+            context.LoadData(customers);
 
             return services;
         }
@@ -71,9 +68,7 @@ namespace OrderHub.Test.Customer
         public static IServiceCollection GivenNoCustomersInDatabase(
             this IServiceCollection services)
         {
-            ReadDbContext context = GetInMemoryContext();
-
-            services.AddSingleton(context);
+            services.GetInMemoryContext();
 
             return services;
         }

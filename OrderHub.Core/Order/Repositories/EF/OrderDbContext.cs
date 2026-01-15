@@ -7,7 +7,7 @@ namespace OrderHub.Core.Order.Repositories.EF
     {
         public DbSet<OrderEntity> Orders { get; set; }
 
-        public OrderDbContext(DbContextOptions options) : base(options) { }
+        public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

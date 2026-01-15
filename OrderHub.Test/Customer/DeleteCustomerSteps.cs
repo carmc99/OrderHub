@@ -6,7 +6,7 @@ using OrderHub.Customer.Repositories;
 
 namespace OrderHub.Test.Customer
 {
-    public static class DeleteCustomerSteps
+    internal static class DeleteCustomerSteps
     {
         public static IServiceCollection GivenCustomerRepositoryDeleteReturns(
             this IServiceCollection services,

@@ -24,7 +24,6 @@ namespace OrderHub.Core.Customer.Repositories.EF.Queries
                 CustomerModel? result = null;
 
                 CustomerEntity? entity = await Context.Set<CustomerEntity>()
-                    .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
                 if (entity != null)
