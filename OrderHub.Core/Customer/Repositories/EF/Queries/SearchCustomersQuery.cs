@@ -24,7 +24,6 @@ namespace OrderHub.Core.Customer.Repositories.EF.Queries
                 List<CustomerModel> result = new();
 
                 List<CustomerEntity> entities = await Context.Set<CustomerEntity>()
-                    .AsNoTracking()
                     .ToListAsync(cancellationToken);
 
                 if (entities != null && entities.Count > 0)

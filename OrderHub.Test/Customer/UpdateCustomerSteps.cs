@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OrderHub.Test.Customer
 {
-    public static class UpdateCustomerSteps
+    internal static class UpdateCustomerSteps
     {
         public static IServiceCollection GivenMediatorWithoutSetup(this IServiceCollection services)
         {

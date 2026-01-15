@@ -12,7 +12,7 @@ using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Test.Customer
 {
-    public static class CreateCustomerSteps
+    internal static class CreateCustomerSteps
     {
         public static IServiceCollection GivenCustomerRepositoryReturnsSuccess(
             this IServiceCollection services)
