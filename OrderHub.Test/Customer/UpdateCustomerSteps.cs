@@ -6,7 +6,6 @@ using OrderHub.Core.Customer.Specifications;
 using OrderHub.Customer.Models;
 using OrderHub.Customer.Repositories;
 using OrderHub.Customer.Repositories.EF.Entities;
-using System.ComponentModel.DataAnnotations;
 
 namespace OrderHub.Test.Customer
 {

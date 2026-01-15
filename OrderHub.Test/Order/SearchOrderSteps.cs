@@ -1,6 +1,4 @@
-﻿using Castle.Core.Resource;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using OrderHub.Core.Order.Models;
 using OrderHub.Core.Order.Repositories.EF.Entities;

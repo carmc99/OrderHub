@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using OrderHub.Api;
-using OrderHub.Customer.Repositories.EF;
 
 namespace OrderHub.Core.Order.Repositories.EF
 {

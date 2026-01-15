@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using OrderHub.Core.Customer.Specifications;
 using OrderHub.Core.Repositories.EF;
 using OrderHub.Customer.Models;
-using OrderHub.Customer.Repositories.EF;
 using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Test.Customer

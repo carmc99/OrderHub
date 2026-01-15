@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using OrderHub.Core.Order.Commands;
@@ -7,11 +6,6 @@ using OrderHub.Core.Order.Models;
 using OrderHub.Core.Order.Repositories;
 using OrderHub.Core.Order.Repositories.EF.Entities;
 using OrderHub.Core.Order.Specifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderHub.Test.Order
 {

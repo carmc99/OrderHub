@@ -1,5 +1,4 @@
 using OrderHub.Customer.Repositories.EF.Entities;
-using System.Text.Json.Serialization;
 
 namespace OrderHub.Customer.Models
 {

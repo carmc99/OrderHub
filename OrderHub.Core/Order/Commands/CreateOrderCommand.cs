@@ -4,7 +4,6 @@ using OrderHub.Core.Customer.Specifications;
 using OrderHub.Core.Order.Models;
 using OrderHub.Core.Order.Repositories;
 using OrderHub.Core.Order.Repositories.EF.Entities;
-using OrderHub.Customer.Models;
 
 namespace OrderHub.Core.Order.Commands
 {

@@ -1,10 +1,7 @@
 using FluentValidation;
 using MediatR;
-
 using Microsoft.Extensions.DependencyInjection;
-
 using Moq;
-
 using OrderHub.Customer.Commands;
 using OrderHub.Customer.Models;
 using OrderHub.Customer.Repositories;
