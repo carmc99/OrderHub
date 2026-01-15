@@ -77,47 +77,6 @@ namespace OrderHub.Test.Customer
             return services;
         }
 
-        public static IServiceCollection GivenCustomersWithActiveAndInactiveStatus(
-            this IServiceCollection services)
-        {
-            CustomerDbContext context = GetInMemoryContext();
-
-            List<CustomerEntity> customers = new()
-            {
-                new CustomerEntity
-                {
-                    Id = 1,
-                    Name = "Active Customer 1",
-                    Email = "active1@example.com",
-                    PhoneNumber = "3001234567",
-                    Address = "Address 1"
-                },
-                new CustomerEntity
-                {
-                    Id = 2,
-                    Name = "Active Customer 2",
-                    Email = "active2@example.com",
-                    PhoneNumber = "3101234567",
-                    Address = "Address 2"
-                },
-                new CustomerEntity
-                {
-                    Id = 3,
-                    Name = "Inactive Customer 1",
-                    Email = "inactive1@example.com",
-                    PhoneNumber = "3201234567",
-                    Address = "Address 3"
-                }
-            };
-
-            context.Customers.AddRange(customers);
-            context.SaveChanges();
-
-            services.AddSingleton(context);
-
-            return services;
-        }
-
         public static Task<List<CustomerModel>> WhenSearchCustomers(
             this IServiceProvider services,
             SearchCustomersSpecification request)
@@ -136,21 +95,43 @@ namespace OrderHub.Test.Customer
             Assert.Equal(expectedCount, result.Count);
         }
 
+        public static Task<CustomerModel?> WhenSearchCustomerById(
+           this IServiceProvider services,
+           SearchCustomerByIdSpecification request)
+        {
+            IRequestHandler<SearchCustomerByIdSpecification, CustomerModel?> handler = services
+                .GetRequiredService<IRequestHandler<SearchCustomerByIdSpecification, CustomerModel?>>();
+
+            return handler.Handle(request, CancellationToken.None);
+        }
+
+        public static void ThenShouldReturnNull(this CustomerModel? result)
+        {
+            Assert.Null(result);
+        }
+
+        public static void ThenShouldContainCompleteInformation(this CustomerModel? result)
+        {
+            Assert.NotNull(result);
+            Assert.True(result!.Id > 0);
+            Assert.NotNull(result.Name);
+            Assert.False(string.IsNullOrEmpty(result.Name));
+            Assert.NotNull(result.Email);
+            Assert.False(string.IsNullOrEmpty(result.Email));
+        }
+
+        public static void ThenShouldReturnCustomerWithId(
+            this CustomerModel? result,
+            int expectedId)
+        {
+            Assert.NotNull(result);
+            Assert.Equal(expectedId, result!.Id);
+        }
+
         public static void ThenShouldReturnEmptyList(this List<CustomerModel> result)
         {
             Assert.NotNull(result);
             Assert.Empty(result);
-        }
-
-        public static void ThenShouldContainCustomersWithStatus(this List<CustomerModel> result)
-        {
-            Assert.NotNull(result);
-            Assert.True(result.Count > 0);
-            Assert.All(result, customer =>
-            {
-                Assert.NotNull(customer.Name);
-                Assert.NotNull(customer.Email);
-            });
         }
 
         private static CustomerDbContext GetInMemoryContext()

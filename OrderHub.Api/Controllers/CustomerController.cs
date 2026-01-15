@@ -59,5 +59,28 @@ namespace OrderHub.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetCustomer([FromRoute] int id)
+        {
+            IActionResult result = NotFound();
+
+            SearchCustomerByIdSpecification specification = new()
+            {
+                Id = id
+            };
+
+            CustomerModel? customer = await Mediator.Send(specification);
+
+            if (customer != null)
+            {
+                result = Ok(customer);
+            }
+
+            return result;
+        }
     }
 }
