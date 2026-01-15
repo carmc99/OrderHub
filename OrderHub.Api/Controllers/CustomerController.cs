@@ -98,6 +98,29 @@ namespace OrderHub.Api.Controllers
             return result;
         }
 
+        [HttpGet("{id}/orders")]
+        [ProducesResponseType(typeof(CustomerHistoryModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetCustomerHistory([FromRoute] int id)
+        {
+            IActionResult result = NotFound();
+
+            SearchCustomerOrdersHistorySpecification specification = new()
+            {
+                CustomerId = id
+            };
+
+            CustomerHistoryModel? history = await Mediator.Send(specification);
+
+            if (history != null)
+            {
+                result = Ok(history);
+            }
+
+            return result;
+        }
+
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
