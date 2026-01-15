@@ -56,5 +56,29 @@ namespace OrderHub.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpPatch("{id}/complete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CompleteOrder([FromRoute] int id)
+        {
+            IActionResult result = NotFound();
+
+            CompleteOrderCommand.Request request = new()
+            {
+                Id = id
+            };
+
+            OrderModel? order = await Mediator.Send(request);
+
+            if (order != null)
+            {
+                result = Ok(order);
+            }
+
+            return result;
+        }
     }
 }
