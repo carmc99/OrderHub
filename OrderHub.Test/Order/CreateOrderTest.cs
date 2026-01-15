@@ -25,7 +25,6 @@ namespace OrderHub.Test.Order
             {
                 CustomerId = 5,
                 Total = 1500.00,
-                Status = OrderStatus.Pending
             };
 
             // When
@@ -53,7 +52,6 @@ namespace OrderHub.Test.Order
             {
                 CustomerId = 0,
                 Total = 1500.00,
-                Status = OrderStatus.Pending
             };
 
             // When
@@ -81,7 +79,6 @@ namespace OrderHub.Test.Order
             {
                 CustomerId = 5,
                 Total = 0.00,
-                Status = OrderStatus.Pending
             };
 
             // When
@@ -109,7 +106,6 @@ namespace OrderHub.Test.Order
             {
                 CustomerId = 5,
                 Total = -100.00,
-                Status = OrderStatus.Pending
             };
 
             // When
@@ -137,7 +133,6 @@ namespace OrderHub.Test.Order
             {
                 CustomerId = 999,
                 Total = 1500.00,
-                Status = OrderStatus.Pending
             };
 
             // When

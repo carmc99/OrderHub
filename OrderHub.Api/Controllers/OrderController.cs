@@ -34,7 +34,14 @@ namespace OrderHub.Api.Controllers
 
             if(result != null)
             {
-                //TODO: 
+                result = CreatedAtAction(
+                   nameof(CreateOrder),
+                   new
+                   {
+                       version = "1.0",
+                       id = order.Id
+                   },
+                   order);
             }
 
             return result;
