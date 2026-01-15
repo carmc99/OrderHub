@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using OrderHub.Core.Order.Commands;
 using OrderHub.Core.Order.Models;
-using OrderHub.Core.Order.Repositories.EF.Entities;
 
 namespace OrderHub.Test.Order
 {

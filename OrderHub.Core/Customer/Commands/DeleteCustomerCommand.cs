@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using OrderHub.Customer.Repositories;
+using OrderHub.Core.Customer.Repositories;
 
 namespace OrderHub.Core.Customer.Commands
 {

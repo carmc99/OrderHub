@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
-using OrderHub.Customer.Commands;
-using OrderHub.Customer.Models;
+using OrderHub.Core.Customer.Commands;
+using OrderHub.Core.Customer.Models;
 
 namespace OrderHub.Test.Customer
 {

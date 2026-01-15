@@ -1,14 +1,13 @@
-using OrderHub.Customer.Repositories.EF.Entities;
-using System.Text.Json.Serialization;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 
-namespace OrderHub.Customer.Models
+namespace OrderHub.Core.Customer.Models
 {
     public class CustomerModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string? Email { get; set; }
-        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
         public static CustomerModel FromEntity(CustomerEntity entity)
         {

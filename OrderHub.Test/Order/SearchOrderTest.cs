@@ -2,11 +2,6 @@
 using OrderHub.Core.Order.Models;
 using OrderHub.Core.Order.Repositories.EF.Queries;
 using OrderHub.Core.Order.Specifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderHub.Test.Order
 {

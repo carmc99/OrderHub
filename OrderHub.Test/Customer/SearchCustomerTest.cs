@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using OrderHub.Core.Customer.Models;
 using OrderHub.Core.Customer.Repositories.EF.Queries;
 using OrderHub.Core.Customer.Specifications;
-using OrderHub.Customer.Models;
 
 namespace OrderHub.Test.Customer
 {

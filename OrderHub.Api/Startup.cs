@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using OrderHub.Api.Docs;
 using OrderHub.Core;
 
 namespace OrderHub.Api
@@ -10,8 +11,7 @@ namespace OrderHub.Api
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.ConfigureSwagger();
             }
 
             app.UseHttpsRedirection();
@@ -24,7 +24,7 @@ namespace OrderHub.Api
         {
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwagger();
             services.AddVersioning();
 
             services.AddOrderHubCore();

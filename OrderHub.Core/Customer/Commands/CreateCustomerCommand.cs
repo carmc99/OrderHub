@@ -1,10 +1,10 @@
 using FluentValidation;
 using MediatR;
-using OrderHub.Customer.Models;
-using OrderHub.Customer.Repositories;
-using OrderHub.Customer.Repositories.EF.Entities;
+using OrderHub.Core.Customer.Models;
+using OrderHub.Core.Customer.Repositories;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 
-namespace OrderHub.Customer.Commands
+namespace OrderHub.Core.Customer.Commands
 {
     public static class CreateCustomerCommand
     {
@@ -24,11 +24,18 @@ namespace OrderHub.Customer.Commands
             public async Task<CustomerModel?> Handle(Request request, CancellationToken cancellationToken)
             {
                 CustomerModel? result = null;
-                request.Id = 0;
 
                 await RequestValidation.ValidateAndThrowAsync(request, cancellationToken);
 
-                CustomerEntity? entity = await CustomerRepository.Store(request, cancellationToken);
+                CustomerModel customerModel = new()
+                {
+                    Address = request.Address,
+                    Email = request.Email,
+                    Name = request.Name,
+                    PhoneNumber = request.PhoneNumber
+                };
+
+                CustomerEntity? entity = await CustomerRepository.Store(customerModel, cancellationToken);
 
                 if (entity != null)
                 {
@@ -39,7 +46,13 @@ namespace OrderHub.Customer.Commands
             }
         }
 
-        public class Request : CustomerModel, IRequest<CustomerModel?> { }
+        public class Request : IRequest<CustomerModel?>
+        {
+            public string Name { get; set; }
+            public string Email { get; set; }
+            public string? PhoneNumber { get; set; }
+            public string? Address { get; set; }
+        }
 
         public class Validator : AbstractValidator<Request>
         {

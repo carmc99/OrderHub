@@ -17,12 +17,12 @@ namespace OrderHub.Core.Order.Repositories.EF
         {
             bool result = false;
 
-            OrderEntity? entity = await Context.Set<OrderEntity>()
+            OrderEntity? entity = await Context.Orders
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
             if (entity != null)
             {
-                Context.Set<OrderEntity>().Remove(entity);
+                Context.Orders.Remove(entity);
                 int affectedRows = await Context.SaveChangesAsync(cancellationToken);
                 result = affectedRows > 0;
             }
@@ -34,37 +34,54 @@ namespace OrderHub.Core.Order.Repositories.EF
         {
             OrderEntity? result = null;
 
-            if (model.Id == 0)
+            OrderEntity? currentEntity = await Context.Orders
+                .FirstOrDefaultAsync(x => x.Id == model.Id, cancellationToken);
+
+            bool isNewEntity = currentEntity == null;
+
+            if (isNewEntity)
             {
-                OrderEntity newEntity = OrderEntity.FromModel(model);
+                OrderEntity newEntity = MapToEntity(model);
                 newEntity.OrderDate = DateTime.UtcNow;
                 newEntity.Status = OrderStatus.Pending;
 
                 Context.Orders.Add(newEntity);
                 await Context.SaveChangesAsync(cancellationToken);
-
                 result = newEntity;
             }
             else
             {
-                OrderEntity? existingEntity = await Context.Set<OrderEntity>()
-                    .FirstOrDefaultAsync(x => x.Id == model.Id, cancellationToken);
-
-                if (existingEntity != null)
-                {
-                    existingEntity.CustomerId = model.CustomerId;
-                    existingEntity.Total = model.Total;
-                    existingEntity.Status = model.Status;
-                    existingEntity.CompletedDate = model.CompletedDate;
-                    existingEntity.CancelledDate = model.CancelledDate;
-
-                    Context.Entry(existingEntity).CurrentValues.SetValues(existingEntity);
-                    await Context.SaveChangesAsync(cancellationToken);
-                    result = existingEntity;
-                }
+                MapToExistingEntity(currentEntity, model);
+                await Context.SaveChangesAsync(cancellationToken);
+                result = currentEntity;
             }
 
             return result;
+        }
+
+        private static OrderEntity MapToEntity(OrderModel model)
+        {
+            OrderEntity entity = new()
+            {
+                Id = model.Id,
+                CustomerId = model.CustomerId,
+                OrderDate = model.OrderDate,
+                Total = model.Total,
+                Status = model.Status,
+                CompletedDate = model.CompletedDate,
+                CancelledDate = model.CancelledDate
+            };
+
+            return entity;
+        }
+
+        private static void MapToExistingEntity(OrderEntity entity, OrderModel model)
+        {
+            entity.CustomerId = model.CustomerId;
+            entity.Total = model.Total;
+            entity.Status = model.Status;
+            entity.CompletedDate = model.CompletedDate;
+            entity.CancelledDate = model.CancelledDate;
         }
     }
 }
