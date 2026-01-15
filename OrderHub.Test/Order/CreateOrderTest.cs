@@ -47,6 +47,7 @@ namespace OrderHub.Test.Order
                 {
                     services.MockClass<ILogger<CreateOrderCommand.Handler>>();
                     services.GivenOrderRepositoryReturnsSuccess();
+                    services.GivenMediatorWithoutSetup();
                 });
 
             CreateOrderCommand.Request request = new()

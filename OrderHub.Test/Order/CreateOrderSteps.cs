@@ -34,6 +34,12 @@ namespace OrderHub.Test.Order
             return services;
         }
 
+        public static IServiceCollection GivenMediatorWithoutSetup(this IServiceCollection services)
+        {
+            services.MockClass<IMediator>();
+            return services;
+        }
+
         public static IServiceCollection GivenCustomerExists(
             this IServiceCollection services,
             int customerId)
