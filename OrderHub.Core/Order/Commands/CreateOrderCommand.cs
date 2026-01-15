@@ -41,7 +41,7 @@ namespace OrderHub.Core.Order.Commands
                 {
                     CustomerId = request.CustomerId,
                     Total = request.Total,
-                    Status = request.Status,
+                    Status = OrderStatus.Pending,
                     OrderDate = DateTime.UtcNow
                 };
 
@@ -60,7 +60,6 @@ namespace OrderHub.Core.Order.Commands
         {
             public int CustomerId { get; set; }
             public double Total { get; set; }
-            public OrderStatus Status { get; set; }
         }
 
         public class Validator : AbstractValidator<Request>
