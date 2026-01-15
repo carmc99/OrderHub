@@ -1,6 +1,6 @@
-using OrderHub.Customer.Models;
+using OrderHub.Core.Customer.Models;
 
-namespace OrderHub.Customer.Repositories.EF.Entities
+namespace OrderHub.Core.Customer.Repositories.EF.Entities
 {
     public class CustomerEntity
     {

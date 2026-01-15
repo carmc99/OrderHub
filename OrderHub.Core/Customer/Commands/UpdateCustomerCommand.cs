@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using MediatR;
+using OrderHub.Core.Customer.Models;
+using OrderHub.Core.Customer.Repositories;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 using OrderHub.Core.Customer.Specifications;
-using OrderHub.Customer.Models;
-using OrderHub.Customer.Repositories;
-using OrderHub.Customer.Repositories.EF.Entities;
 using System.Text.Json.Serialization;
 
 namespace OrderHub.Core.Customer.Commands

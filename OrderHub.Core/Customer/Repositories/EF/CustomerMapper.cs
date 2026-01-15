@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OrderHub.Customer.Repositories.EF.Entities;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Core.Customer.Repositories.EF
 {

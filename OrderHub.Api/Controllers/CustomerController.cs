@@ -2,9 +2,8 @@ using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrderHub.Core.Customer.Commands;
+using OrderHub.Core.Customer.Models;
 using OrderHub.Core.Customer.Specifications;
-using OrderHub.Customer.Commands;
-using OrderHub.Customer.Models;
 
 namespace OrderHub.Api.Controllers
 {

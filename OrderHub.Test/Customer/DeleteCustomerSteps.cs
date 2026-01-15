@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using OrderHub.Core.Customer.Commands;
-using OrderHub.Customer.Repositories;
+using OrderHub.Core.Customer.Repositories;
 
 namespace OrderHub.Test.Customer
 {

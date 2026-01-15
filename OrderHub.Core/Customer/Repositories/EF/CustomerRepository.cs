@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using OrderHub.Customer.Models;
-using OrderHub.Customer.Repositories.EF.Entities;
+using OrderHub.Core.Customer.Models;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 
-namespace OrderHub.Customer.Repositories.EF
+namespace OrderHub.Core.Customer.Repositories.EF
 {
     internal class CustomerRepository : ICustomerRepository
     {

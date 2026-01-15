@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using OrderHub.Api;
+using OrderHub.Core.Customer.Repositories.EF;
 using OrderHub.Core.Order.Repositories.EF;
 using OrderHub.Core.Repositories.EF;
-using OrderHub.Customer.Repositories.EF;
 
 namespace OrderHub.Core
 {

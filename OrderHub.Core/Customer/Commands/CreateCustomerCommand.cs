@@ -1,10 +1,10 @@
 using FluentValidation;
 using MediatR;
-using OrderHub.Customer.Models;
-using OrderHub.Customer.Repositories;
-using OrderHub.Customer.Repositories.EF.Entities;
+using OrderHub.Core.Customer.Models;
+using OrderHub.Core.Customer.Repositories;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 
-namespace OrderHub.Customer.Commands
+namespace OrderHub.Core.Customer.Commands
 {
     public static class CreateCustomerCommand
     {

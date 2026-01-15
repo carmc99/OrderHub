@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using OrderHub.Core.Customer.Commands;
+using OrderHub.Core.Customer.Models;
+using OrderHub.Core.Customer.Repositories;
+using OrderHub.Core.Customer.Repositories.EF.Entities;
 using OrderHub.Core.Customer.Specifications;
-using OrderHub.Customer.Models;
-using OrderHub.Customer.Repositories;
-using OrderHub.Customer.Repositories.EF.Entities;
 
 namespace OrderHub.Test.Customer
 {

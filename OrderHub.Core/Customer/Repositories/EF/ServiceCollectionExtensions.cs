@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using OrderHub.Api;
 
-namespace OrderHub.Customer.Repositories.EF
+namespace OrderHub.Core.Customer.Repositories.EF
 {
     internal static class ServiceCollectionExtensions
     {
