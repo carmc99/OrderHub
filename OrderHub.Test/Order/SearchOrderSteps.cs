@@ -11,6 +11,7 @@ namespace OrderHub.Test.Order
 {
     internal static class SearchOrderSteps
     {
+
         public static IServiceCollection GivenTenOrdersInDatabase(
            this IServiceCollection services)
         {
@@ -119,6 +120,29 @@ namespace OrderHub.Test.Order
             return services;
         }
 
+        public static IServiceCollection GivenOrderWithId15InDatabase(
+            this IServiceCollection services)
+        {
+            ReadDbContext context = services.GetInMemoryContext();
+
+            List<OrderEntity> orders = new()
+            {
+                new OrderEntity
+                {
+                    Id = 15,
+                    CustomerId = 5,
+                    OrderDate = new DateTime(2026, 1, 10, 10, 30, 0, DateTimeKind.Utc),
+                    Total = 2750.50,
+                    Status = OrderStatus.Completed,
+                    CompletedDate = new DateTime(2026, 1, 11, 14, 20, 0, DateTimeKind.Utc)
+                }
+            };
+
+            context.LoadData(orders);
+
+            return services;
+        }
+
         public static Task<List<OrderModel>> WhenSearchOrders(
             this IServiceProvider services,
             SearchOrdersSpecification request)
@@ -173,6 +197,27 @@ namespace OrderHub.Test.Order
         {
             Assert.NotNull(result);
             Assert.Empty(result);
+        }
+
+        public static void ThenShouldIncludeAllOrderInformation(this OrderModel? result)
+        {
+            Assert.NotNull(result);
+            Assert.Equal(15, result!.Id);
+            Assert.Equal(5, result.CustomerId);
+            Assert.True(result.Total > 0);
+            Assert.NotEqual(default, result.OrderDate);
+            Assert.NotEqual(OrderStatus.Pending, result.Status);
+            Assert.True(result.Status == OrderStatus.Completed || result.Status == OrderStatus.Cancelled);
+
+            if (result.Status == OrderStatus.Completed)
+            {
+                Assert.NotNull(result.CompletedDate);
+            }
+
+            if (result.Status == OrderStatus.Cancelled)
+            {
+                Assert.NotNull(result.CancelledDate);
+            }
         }
     }
 }

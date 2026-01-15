@@ -130,5 +130,55 @@ namespace OrderHub.Test.Order
             // Then
             result.ThenShouldReturnEmptyList();
         }
+
+        [Fact]
+        public async Task GivenOrderWithId15_WhenSearchingOrderDetails_ThenShouldReturnCompleteOrderInformation()
+        {
+            // Given
+            TestApplicationBuilder builder = new();
+
+            IServiceProvider serviceProvider = builder
+                .Setup(services =>
+                {
+                    services.MockClass<ILogger<SearchOrderByIdQuery.Handler>>();
+                    services.GivenOrderWithId15InDatabase();
+                });
+
+            SearchOrderByIdSpecification request = new()
+            {
+                Id = 15
+            };
+
+            // When
+            OrderModel? result = await serviceProvider.WhenSearchOrderById(request);
+
+            // Then
+            result.ThenShouldIncludeAllOrderInformation();
+        }
+
+        [Fact]
+        public async Task GivenNonExistentOrderId_WhenSearchingOrderDetails_ThenShouldReturnNull()
+        {
+            // Given
+            TestApplicationBuilder builder = new();
+
+            IServiceProvider serviceProvider = builder
+                .Setup(services =>
+                {
+                    services.MockClass<ILogger<SearchOrderByIdQuery.Handler>>();
+                    services.GivenTenOrdersInDatabase();
+                });
+
+            SearchOrderByIdSpecification request = new()
+            {
+                Id = 999
+            };
+
+            // When
+            OrderModel? result = await serviceProvider.WhenSearchOrderById(request);
+
+            // Then
+            result.ThenShouldReturnNull();
+        }
     }
 }
