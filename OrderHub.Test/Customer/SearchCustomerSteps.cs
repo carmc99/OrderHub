@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OrderHub.Core.Customer.Specifications;
+using OrderHub.Core.Repositories.EF;
 using OrderHub.Customer.Models;
 using OrderHub.Customer.Repositories.EF;
 using OrderHub.Customer.Repositories.EF.Entities;
@@ -13,7 +14,7 @@ namespace OrderHub.Test.Customer
         public static IServiceCollection GivenFiveCustomersInDatabase(
             this IServiceCollection services)
         {
-            CustomerDbContext context = GetInMemoryContext();
+            ReadDbContext context = GetInMemoryContext();
 
             List<CustomerEntity> customers = new()
             {
@@ -70,7 +71,7 @@ namespace OrderHub.Test.Customer
         public static IServiceCollection GivenNoCustomersInDatabase(
             this IServiceCollection services)
         {
-            CustomerDbContext context = GetInMemoryContext();
+            ReadDbContext context = GetInMemoryContext();
 
             services.AddSingleton(context);
 
@@ -134,13 +135,13 @@ namespace OrderHub.Test.Customer
             Assert.Empty(result);
         }
 
-        private static CustomerDbContext GetInMemoryContext()
+        private static ReadDbContext GetInMemoryContext()
         {
-            DbContextOptions<CustomerDbContext> options = new DbContextOptionsBuilder<CustomerDbContext>()
+            DbContextOptions<ReadDbContext> options = new DbContextOptionsBuilder<ReadDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
-            CustomerDbContext context = new(options);
+            ReadDbContext context = new(options);
 
             return context;
         }

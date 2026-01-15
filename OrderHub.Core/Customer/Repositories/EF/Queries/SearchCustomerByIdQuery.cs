@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OrderHub.Core.Customer.Specifications;
+using OrderHub.Core.Repositories.EF;
 using OrderHub.Customer.Models;
 using OrderHub.Customer.Repositories.EF;
 using OrderHub.Customer.Repositories.EF.Entities;
@@ -11,9 +12,9 @@ namespace OrderHub.Core.Customer.Repositories.EF.Queries
     {
         public class Handler : IRequestHandler<SearchCustomerByIdSpecification, CustomerModel?>
         {
-            private readonly CustomerDbContext Context;
+            private readonly ReadDbContext Context;
 
-            public Handler(CustomerDbContext context)
+            public Handler(ReadDbContext context)
             {
                 Context = context;
             }

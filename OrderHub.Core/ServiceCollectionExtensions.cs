@@ -1,6 +1,8 @@
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OrderHub.Core.Order.Repositories.EF;
+using OrderHub.Core.Repositories.EF;
 using OrderHub.Customer.Repositories.EF;
 
 namespace OrderHub.Core
@@ -11,9 +13,18 @@ namespace OrderHub.Core
         {
             services.AddCustomerEFrepository();
             services.AddOrderEFrepository();
+            services.AddReadDbContext();
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ServiceCollectionExtensions).Assembly));
             services.AddValidatorsFromAssembly(typeof(ServiceCollectionExtensions).Assembly);
+
+            return services;
+        }
+
+        private static IServiceCollection AddReadDbContext(this IServiceCollection services)
+        {
+            services.AddDbContext<ReadDbContext>(options =>
+                options.UseInMemoryDatabase("InMemoryDb"));
 
             return services;
         }

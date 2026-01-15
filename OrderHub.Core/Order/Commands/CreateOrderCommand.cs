@@ -32,14 +32,10 @@ namespace OrderHub.Core.Order.Commands
 
                 await RequestValidation.ValidateAndThrowAsync(request, cancellationToken);
 
-                CustomerModel? customer = await Mediator.Send(
-                    new SearchCustomerByIdSpecification { Id = request.CustomerId },
-                    cancellationToken);
-
-                if (customer != null)
-                {
-                    throw new InvalidOperationException("Customer not found");
-                }
+                _ = await Mediator.Send(new SearchCustomerByIdSpecification { 
+                        Id = request.CustomerId 
+                    }, cancellationToken) ??
+                        throw new InvalidOperationException("Customer not found");
 
                 OrderEntity? entity = await OrderRepository.Store(request, cancellationToken);
 
