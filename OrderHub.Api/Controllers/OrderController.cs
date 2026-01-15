@@ -29,10 +29,10 @@ namespace OrderHub.Api.Controllers
 
             OrderModel? order = await Mediator.Send(request);
 
-            if(result != null)
+            if (order != null)
             {
                 result = CreatedAtAction(
-                   nameof(CreateOrder),
+                   nameof(GetOrder),
                    new
                    {
                        version = "1.0",
@@ -45,7 +45,7 @@ namespace OrderHub.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<OrderModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetOrders()
         {
@@ -54,8 +54,31 @@ namespace OrderHub.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(OrderModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetOrder([FromRoute] int id)
+        {
+            IActionResult result = NotFound();
+
+            SearchOrderByIdSpecification specification = new()
+            {
+                Id = id
+            };
+
+            OrderModel? order = await Mediator.Send(specification);
+
+            if (order != null)
+            {
+                result = Ok(order);
+            }
+
+            return result;
+        }
+
         [HttpPatch("{id}/complete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrderModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -79,7 +102,7 @@ namespace OrderHub.Api.Controllers
         }
 
         [HttpPatch("{id}/cancel")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrderModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
