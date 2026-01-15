@@ -36,14 +36,16 @@ namespace OrderHub.Core.Customer.Commands
                     Id = request.Id
                 };
 
-                CustomerModel? existingCustomer = await Mediator.Send(searchSpec, cancellationToken) ??
-                    throw new InvalidOperationException("Customer not found");
+                CustomerModel? existingCustomer = await Mediator.Send(searchSpec, cancellationToken);
 
-                CustomerEntity? entity = await CustomerRepository.Store(request, cancellationToken);
-
-                if (entity != null)
+                if(existingCustomer != null)
                 {
-                    result = CustomerModel.FromEntity(entity);
+                    CustomerEntity? entity = await CustomerRepository.Store(request, cancellationToken);
+                    
+                    if (entity != null)
+                    {
+                        result = CustomerModel.FromEntity(entity);
+                    }
                 }
 
                 return result;

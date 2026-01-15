@@ -1,36 +1,42 @@
 ﻿using Microsoft.Extensions.Logging;
 using OrderHub.Core.Customer.Commands;
 using OrderHub.Customer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderHub.Test.Customer
 {
     public class UpdateCustomerTest
     {
         [Fact]
-        public async Task Given_ValidCustomerData_When_UpdatingCustomer_Then_ShouldUpdateSuccessfully()
+        public async Task GivenValidCustomerData_WhenUpdatingCustomer_ThenShouldUpdateSuccessfully()
         {
             // Given
             TestApplicationBuilder builder = new();
 
-            IServiceProvider serviceProvider = builder
-                .Setup(services =>
-                {
-                    services.MockClass<ILogger<UpdateCustomerCommand.Handler>>();
-                    services.GivenCustomerRepositoryReturnsUpdatedCustomer();
-                });
-
-            UpdateCustomerCommand.Request request = new()
+            CustomerModel expectedResult = new()
             {
                 Id = 1,
                 Name = "Updated Customer",
                 Email = "updated@example.com",
                 PhoneNumber = "3107654321",
                 Address = "Updated Address"
+            };
+
+            IServiceProvider serviceProvider = builder
+                .Setup(services =>
+                {
+                    services.GivenMediatorWithoutSetup();
+                    services.MockClass<ILogger<UpdateCustomerCommand.Handler>>();
+                    services.GivenCustomerRepositoryReturnsUpdatedCustomer(expectedResult);
+                    services.GivenCustomerExists(expectedResult.Id);
+                });
+
+            UpdateCustomerCommand.Request request = new()
+            {
+                Id = 1,
+                Name = "Customer",
+                Email = "test@example.com",
+                PhoneNumber = "3107654321",
+                Address = "test Address"
             };
 
             // When
@@ -41,7 +47,7 @@ namespace OrderHub.Test.Customer
         }
 
         [Fact]
-        public async Task Given_DuplicateEmail_When_UpdatingCustomer_Then_ShouldThrowInvalidOperationException()
+        public async Task GivenDuplicateEmail_WhenUpdatingCustomer_ThenShouldThrowInvalidOperationException()
         {
             // Given
             TestApplicationBuilder builder = new();
@@ -71,16 +77,26 @@ namespace OrderHub.Test.Customer
         }
 
         [Fact]
-        public async Task Given_CustomerIdZero_When_UpdatingCustomer_Then_ShouldThrowValidationException()
+        public async Task GivenCustomerIdZero_WhenUpdatingCustomer_ThenShouldThrowValidationException()
         {
             // Given
             TestApplicationBuilder builder = new();
 
+            CustomerModel expectedResult = new()
+            {
+                Id = 1,
+                Name = "Updated Customer",
+                Email = "test@example.com",
+                PhoneNumber = "3001234567",
+                Address = "Updated Address"
+            };
+
             IServiceProvider serviceProvider = builder
                 .Setup(services =>
                 {
+                    services.GivenMediatorWithoutSetup();
                     services.MockClass<ILogger<UpdateCustomerCommand.Handler>>();
-                    services.GivenCustomerRepositoryReturnsUpdatedCustomer();
+                    services.GivenCustomerRepositoryReturnsUpdatedCustomer(expectedResult);
                 });
 
             UpdateCustomerCommand.Request request = new()
@@ -100,16 +116,22 @@ namespace OrderHub.Test.Customer
         }
 
         [Fact]
-        public async Task Given_EmptyName_When_UpdatingCustomer_Then_ShouldThrowValidationException()
+        public async Task GivenEmptyName_WhenUpdatingCustomer_ThenShouldThrowValidationException()
         {
             // Given
             TestApplicationBuilder builder = new();
 
+            CustomerModel expectedResult = new()
+            {
+                Id = 1,
+            };
+
             IServiceProvider serviceProvider = builder
                 .Setup(services =>
                 {
+                    services.GivenMediatorWithoutSetup();
                     services.MockClass<ILogger<UpdateCustomerCommand.Handler>>();
-                    services.GivenCustomerRepositoryReturnsUpdatedCustomer();
+                    services.GivenCustomerRepositoryReturnsUpdatedCustomer(expectedResult);
                 });
 
             UpdateCustomerCommand.Request request = new()
@@ -129,16 +151,22 @@ namespace OrderHub.Test.Customer
         }
 
         [Fact]
-        public async Task Given_EmptyEmail_When_UpdatingCustomer_Then_ShouldThrowValidationException()
+        public async Task GivenEmptyEmail_WhenUpdatingCustomer_ThenShouldThrowValidationException()
         {
             // Given
             TestApplicationBuilder builder = new();
 
+            CustomerModel expectedResult = new()
+            {
+                Id = 1,
+            };
+
             IServiceProvider serviceProvider = builder
                 .Setup(services =>
                 {
+                    services.GivenMediatorWithoutSetup();
                     services.MockClass<ILogger<UpdateCustomerCommand.Handler>>();
-                    services.GivenCustomerRepositoryReturnsUpdatedCustomer();
+                    services.GivenCustomerRepositoryReturnsUpdatedCustomer(expectedResult);
                 });
 
             UpdateCustomerCommand.Request request = new()

@@ -12,6 +12,12 @@ namespace OrderHub.Test.Customer
 {
     public static class UpdateCustomerSteps
     {
+        public static IServiceCollection GivenMediatorWithoutSetup(this IServiceCollection services)
+        {
+            services.MockClass<IMediator>();
+            return services;
+        }
+
         public static IServiceCollection GivenCustomerExists(
             this IServiceCollection services,
             int customerId)
@@ -46,7 +52,8 @@ namespace OrderHub.Test.Customer
         }
 
         public static IServiceCollection GivenCustomerRepositoryReturnsUpdatedCustomer(
-            this IServiceCollection services)
+            this IServiceCollection services,
+            CustomerModel expectedReturn)
         {
             Mock<ICustomerRepository> repositoryMock = services.MockClass<ICustomerRepository>();
 
@@ -54,11 +61,11 @@ namespace OrderHub.Test.Customer
                 .Setup(x => x.Store(It.IsAny<CustomerModel>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((CustomerModel model, CancellationToken ct) => new CustomerEntity
                 {
-                    Id = model.Id,
-                    Name = model.Name,
-                    Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
-                    Address = model.Address
+                    Id = expectedReturn.Id,
+                    Name = expectedReturn.Name,
+                    Email = expectedReturn.Email,
+                    PhoneNumber = expectedReturn.PhoneNumber,
+                    Address = expectedReturn.Address
                 });
 
             return services;
