@@ -89,6 +89,29 @@ namespace OrderHub.Api.Controllers
             return result;
         }
 
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteCustomer([FromRoute] int id)
+        {
+            IActionResult result = NotFound();
+            
+            DeleteCustomerCommand.Request request = new()
+            {
+                Id = id
+            };
+
+            bool deleted = await Mediator.Send(request);
+
+            if (deleted)
+            {
+                result = NoContent();
+            }
+
+            return result;
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
