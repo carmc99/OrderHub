@@ -1,12 +1,9 @@
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OrderHub.Core.Customer.Specifications;
 using OrderHub.Core.Order.Commands;
 using OrderHub.Core.Order.Models;
-using OrderHub.Core.Order.Repositories.EF.Queries;
 using OrderHub.Core.Order.Specifications;
-using OrderHub.Customer.Models;
 
 namespace OrderHub.Api.Controllers
 {
@@ -67,6 +64,30 @@ namespace OrderHub.Api.Controllers
             IActionResult result = NotFound();
 
             CompleteOrderCommand.Request request = new()
+            {
+                Id = id
+            };
+
+            OrderModel? order = await Mediator.Send(request);
+
+            if (order != null)
+            {
+                result = Ok(order);
+            }
+
+            return result;
+        }
+
+        [HttpPatch("{id}/cancel")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CancelOrder([FromRoute] int id)
+        {
+            IActionResult result = NotFound();
+
+            CancelOrderCommand.Request request = new()
             {
                 Id = id
             };
