@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using OrderHub.Api.Application;
 using OrderHub.Api.Docs;
 using OrderHub.Core;
 
@@ -8,6 +9,7 @@ namespace OrderHub.Api
     {
         public static void Configure(this WebApplication app)
         {
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
