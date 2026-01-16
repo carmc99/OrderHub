@@ -42,7 +42,7 @@ namespace OrderHub.Core.Order.Commands
                 {
                     if (existingOrder.Status == OrderStatus.Completed)
                     {
-                        throw new InvalidOperationException("No se puede cancelar una orden completada");
+                        throw new InvalidOperationException("Completed order cannot be cancelled");
                     }
 
                     existingOrder.Status = OrderStatus.Cancelled;

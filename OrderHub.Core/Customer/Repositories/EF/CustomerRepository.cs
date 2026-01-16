@@ -53,7 +53,7 @@ namespace OrderHub.Core.Customer.Repositories.EF
 
             if (isNewEntity)
             {
-                CustomerEntity newEntity = MapToEntity(model);
+                CustomerEntity newEntity = CustomerEntity.FromModel(model);
                 Context.Customers.Add(newEntity);
                 await Context.SaveChangesAsync(cancellationToken);
                 result = newEntity;
@@ -66,20 +66,6 @@ namespace OrderHub.Core.Customer.Repositories.EF
             }
 
             return result;
-        }
-
-        private static CustomerEntity MapToEntity(CustomerModel model)
-        {
-            CustomerEntity entity = new()
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                Address = model.Address
-            };
-
-            return entity;
         }
 
         private static void MapToExistingEntity(CustomerEntity entity, CustomerModel model)

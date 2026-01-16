@@ -29,9 +29,6 @@ namespace OrderHub.Core.Order.Repositories.EF
             builder.Property(p => p.CompletedDate);
 
             builder.Property(p => p.CancelledDate);
-
-            builder.HasIndex(p => p.CustomerId);
-            builder.HasIndex(p => p.Status);
         }
     }
 }

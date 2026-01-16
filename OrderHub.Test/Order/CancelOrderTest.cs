@@ -56,7 +56,7 @@ namespace OrderHub.Test.Order
             Task task = serviceProvider.WhenCancelOrder(request);
 
             // Then
-            await task.ThenShouldThrowInvalidOperationExceptionWithMessage("No se puede cancelar una orden completada");
+            await task.ThenShouldThrowInvalidOperationExceptionWithMessage("Completed order cannot be cancelled");
         }
 
         [Fact]

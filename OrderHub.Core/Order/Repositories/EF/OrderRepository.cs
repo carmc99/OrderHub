@@ -41,7 +41,7 @@ namespace OrderHub.Core.Order.Repositories.EF
 
             if (isNewEntity)
             {
-                OrderEntity newEntity = MapToEntity(model);
+                OrderEntity newEntity = OrderEntity.FromModel(model);
                 newEntity.OrderDate = DateTime.UtcNow;
                 newEntity.Status = OrderStatus.Pending;
 
@@ -57,22 +57,6 @@ namespace OrderHub.Core.Order.Repositories.EF
             }
 
             return result;
-        }
-
-        private static OrderEntity MapToEntity(OrderModel model)
-        {
-            OrderEntity entity = new()
-            {
-                Id = model.Id,
-                CustomerId = model.CustomerId,
-                OrderDate = model.OrderDate,
-                Total = model.Total,
-                Status = model.Status,
-                CompletedDate = model.CompletedDate,
-                CancelledDate = model.CancelledDate
-            };
-
-            return entity;
         }
 
         private static void MapToExistingEntity(OrderEntity entity, OrderModel model)
